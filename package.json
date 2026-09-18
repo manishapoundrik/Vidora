@@ -1,0 +1,13 @@
+{
+  "name":"vidora-phase2",
+  "private":true,
+  "version":"2.0.0",
+  "type":"module",
+  "scripts":{"dev":"concurrently \"npm run server\" \"npm run client\"",
+  "client":"vite",
+  "server":"nodemon server/server.js",
+  "build":"vite build",
+  "start":"node server/server.js"},
+  "dependencies":{"@vitejs/plugin-react":"latest","bcryptjs":"latest","concurrently":"latest","cors":"latest","dotenv":"latest","express":"latest","jsonwebtoken":"latest","mongoose":"latest","multer":"latest","react":"latest","react-dom":"latest","react-router-dom":"latest","lucide-react":"latest"},
+  "devDependencies":{"vite":"latest","nodemon":"latest"}
+}

@@ -1,0 +1,3 @@
+import jwt from 'jsonwebtoken'; import User from '../models/User.js';
+export async function protect(req,res,next){try{const h=req.headers.authorization||''; if(!h.startsWith('Bearer ')) return res.status(401).json({message:'Authentication required'}); const token=h.slice(7); const data=jwt.verify(token,process.env.JWT_SECRET); const user=await User.findById(data.id).select('-password'); if(!user||user.status==='blocked') return res.status(401).json({message:'Account unavailable'}); req.user=user; next()}catch(e){res.status(401).json({message:'Invalid or expired token'})}}
+export function allow(...roles){return (req,res,next)=>roles.includes(req.user.role)?next():res.status(403).json({message:'Forbidden'})}

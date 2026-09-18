@@ -4,4 +4,6 @@ dotenv.config(); const __filename=fileURLToPath(import.meta.url), __dirname=path
 app.use(cors({origin:process.env.CLIENT_URL?.split(',')||true,credentials:true})); app.use(express.json({limit:'2mb'})); app.use('/uploads',express.static(path.join(__dirname,'../uploads')));
 app.get('/api/health',(req,res)=>res.json({ok:true,service:'Vidora API'})); app.use('/api/auth',authRoutes); app.use('/api/portfolio',portfolioRoutes); app.use('/api/inquiries',inquiryRoutes); app.use('/api/admin',adminRoutes);
 const port=process.env.PORT||5000;
-async function start(){try{await mongoose.connect(process.env.MONGO_URI); console.log('MongoDB connected'); const email=process.env.ADMIN_EMAIL; if(email){let u=await User.findOne({email}); if(!u){u=await User.create({name:'Studio Admin',email,password:await bcrypt.hash(process.env.ADMIN_PASSWORD||'Admin@12345',10),role:'admin',status:'active'}); console.log('Admin created:',u.email)}} app.listen(port,()=>console.log(`API http://localhost:${port}`));}catch(e){console.error(e);process.exit(1)}} start();
+async function start(){try{await mongoose.connect(process.env.MONGO_URI); console.log('MongoDB connected');
+ const email=process.env.ADMIN_EMAIL; if(email){let u=await User.findOne({email}); if(!u){u=await User.create({name:'Studio Admin',email,password:await bcrypt.hash(process.env.ADMIN_PASSWORD||'Admin@12345',10),role:'admin',status:'active'}); console.log('Admin created:',u.email)}}
+  app.listen(port, '0.0.0.0', () => console.log(`API running on port ${port}`));}catch(e){console.error(e);process.exit(1)}} start();
